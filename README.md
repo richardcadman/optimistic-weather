@@ -1,3 +1,11 @@
+#README
+
+This is an app that returns an optimistic forecast.
+
+___
+
+### My learnings on this project
+
 #### Initialise node project
 [Setting up the weather app project](https://codeburst.io/build-a-weather-website-in-30-minutes-with-node-js-express-openweather-a317f904897b)
 [Useful overview of a basic Node Express site](https://shapeshed.com/creating-a-basic-site-with-node-and-express/)
@@ -67,4 +75,29 @@ app.post('/', function (req, res) {
   res.render('index');
   console.log(req.body.city);
 })
+```
+
+#### git
+
+```
+git status
+git add <file> or git add .
+git commit -m "explanation"
+git push
+```
+
+The first time you do this (if you haven't made the local repository):
+```
+echo "# optimistic-weather" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin git@github.com:richardcadman/optimistic-weather.git
+git push -u origin master
+```
+
+If you've already got a local repository:
+```
+git remote add origin git@github.com:richardcadman/optimistic-weather.git
+git push -u origin master
 ```
