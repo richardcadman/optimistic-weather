@@ -114,7 +114,7 @@ git push heroku master
 ```
 Check it's running with:
 
-`$ heroku ps:scale web=1`
+`heroku ps:scale web=1`
 
 If heroku doesn't run, your `package.json` file probably isn't pointing to the right `.js` file. [You can use](https://scotch.io/tutorials/how-to-deploy-a-node-js-app-to-heroku):
 
