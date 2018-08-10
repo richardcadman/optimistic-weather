@@ -52,7 +52,7 @@ git commit -m 'initial commit'
 [Routing allows you to get information and render it on a particular page of the site.](https://shapeshed.com/creating-a-basic-site-with-node-and-express/)
 
 I'm trying to understand the difference between router.get and app.get:
-[This is a great explanation of routing](https://stackoverflow.com/questions/28305120/differences-between-express-router-and-app-get)
+[This is a great explanation of routing.](https://stackoverflow.com/questions/28305120/differences-between-express-router-and-app-get)
 
 
 ##### Middleware
@@ -102,4 +102,13 @@ If you've already got a local repository:
 ```
 git remote add origin git@github.com:richardcadman/optimistic-weather.git
 git push -u origin master
+```
+
+#### Heroku
+
+If you install the command line tools to create a site on Heroku and publish it. [Here's helpful again](https://shapeshed.com/creating-a-basic-site-with-node-and-express/).
+
+```
+heroku apps:create
+git push heroku master
 ```
