@@ -1,6 +1,8 @@
-#README
+# README
 
 This is an app that returns an optimistic forecast.
+
+Below are my notes on what I learned on this project.
 
 ___
 
