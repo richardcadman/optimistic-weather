@@ -4,6 +4,9 @@ const hbs = require('hbs');
 const bodyParser = require('body-parser');
 const app = express();
 
+/*port set up, has to be dynamic for heroku*/
+var port = process.env.PORT || 3000;
+
 /*not quite sure how body-parser line works*/
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('public'));
@@ -48,6 +51,6 @@ app.post('/', function(req, res) {
   console.log('made it');
 });
 
-app.listen(3000, function () {
-  console.log('Example app listening on port 3000!')
+app.listen(port, function () {
+  console.log('Our app is running on http://localhost:' + port)
 });

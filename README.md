@@ -31,6 +31,20 @@ Packages could be for anything. I like Axios which makes API requests and handle
 #### How to install nodemon, so your code refreshes
 `npm install nodemon`
 
+#### Set up a dynamic port
+
+Dynamic ports are required because Heroku dynamically sets the port. If we specify a port (as tutorials often tell you to do), it'll break in production:
+
+```
+// set the port of our application
+// process.env.PORT lets the port be set by Heroku
+var port = process.env.PORT || 8080;
+
+app.listen(port, function() {
+    console.log('Our app is running on http://localhost:' + port);
+});
+```
+
 #### How to run the app
 
 Either:
@@ -119,6 +133,8 @@ Check it's running with:
 If heroku doesn't run, your `package.json` file probably isn't pointing to the right `.js` file. [You can use](https://scotch.io/tutorials/how-to-deploy-a-node-js-app-to-heroku):
 
 `web: node server.js`
+
+Or, dive into your package.json file and add a 'start' under 'scripts'.
 
 You can then open with:
 
