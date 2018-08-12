@@ -51,12 +51,14 @@ app.post('/', function(req, res) {
 
 
     var address = weather_data.formatted_address;
+    var darkSkyIconId = response.data.currently.icon;
+    var openWeatherIconId = openWeather.data.weather[0].icon;
 
     //Take response from DarkSky and extract key info
     var darkSkyBlob = {
       source: "DarkSky",
-      icon_id: response.data.currently.icon,
-      icon: "/images/sun.svg",
+      icon_id: darkSkyIconId,
+      icon: icons.darkSky[darkSkyIconId],
       address: weather_data.formatted_address,
       temperature: Math.round(response.data.currently.temperature),
       summary: response.data.currently.summary,
@@ -66,21 +68,29 @@ app.post('/', function(req, res) {
     //Take response from OpenWeather and extract key info
     var openWeatherBlob = {
       source: "OpenWeather",
-      icon_id: openWeather.data.weather[0].icon,
-      icon: "/images/shades.svg",
+      icon_id: openWeatherIconId,
+      icon: icons.openWeather[openWeatherIconId],
       address: weather_data.formatted_address,
       temperature: Math.round(openWeather.data.main.temp * 10)/10,
       summary: openWeather.data.weather[0].main,
     };
 
-    console.log(openWeather);
     console.log(openWeatherBlob.temperature);
     console.log(openWeatherBlob.icon_id);
     console.log(openWeatherBlob.summary);
 
-    //Formula to decide rank of sites
+    //Formula to decide rank of sites (this is pretty basic for now)
     var siteRank = {};
-    if (darkSkyBlob.temperature >= openWeatherBlob.temperature){
+    if(darkSkyBlob.icon_id === "rain"){
+      siteRank.firstResult = openWeatherBlob;
+      siteRank.secondResult = darkSkyBlob;
+    } else if(openWeatherBlob.icon_id === "10d"){
+      siteRank.firstResult = darkSkyBlob;
+      siteRank.secondResult = openWeatherBlob;
+    } else if(openWeatherBlob.icon_id === "10n"){
+      siteRank.firstResult = darkSkyBlob;
+      siteRank.secondResult = openWeatherBlob;
+    } else if(darkSkyBlob.temperature >= openWeatherBlob.temperature){
       siteRank.firstResult = darkSkyBlob;
       siteRank.secondResult = openWeatherBlob;
     } else {
@@ -115,22 +125,38 @@ app.listen(port, function () {
 });
 
 //Setting up icons
-/*
+
 var icons = {
-  'darkSky': {
-    'clear-day':
-    'clear-night':
-    'rain':
-    'snow':
-    'sleet':
-    'wind':
-    'fog':
-    'cloudy':
-    'partly-cloudy-day':
-    'partly-cloudy-night':
+  darkSky: {
+    'clear-day': '/images/sun.svg',
+    'clear-night': '/images/moon.svg',
+    'rain': '/images/umbrella.svg',
+    'snow': '/images/snowflake.svg',
+    'sleet': '/images/cloud-hail.svg',
+    'wind': '/images/wind.svg',
+    'fog': '/images/cloud-fog.svg',
+    'cloudy': '/images/cloud.svg',
+    'partly-cloudy-day': '/images/cloud-sun.svg',
+    'partly-cloudy-night': '/images/cloud-moon.svg',
   },
   'openWeather': {
-    //tbc
+    '01d': '/images/sun.svg',
+    '02d': '/images/cloud-sun.svg',
+    '03d': '/images/cloud.svg',
+    '04d': '/images/cloud.svg',
+    '09d': '/images/umbrella.svg',
+    '10d': '/images/umbrella.svg',
+    '11d': '/images/umbrella.svg',
+    '13d': '/images/snowflake.svg',
+    '50d': '/images/cloud-fog.svg',
+    '01n': '/images/moon.svg',
+    '02n': '/images/cloud-moon.svg',
+    '03n': '/images/cloud-moon.svg',
+    '04n': '/images/cloud.svg',
+    '09n': '/images/umbrella.svg',
+    '10n': '/images/umbrella.svg',
+    '11n': '/images/umbrella.svg',
+    '13n': '/images/snowflake.svg',
+    '50n': '/images/cloud-fog.svg',
   },
 };
-*/
