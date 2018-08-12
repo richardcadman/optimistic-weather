@@ -35,11 +35,10 @@
             <img src={{firstResult.icon}} alt="weather icon">
           </span>
           <span class="description swap">
+            <span class="summaryWeather">Top Result</span>
             <span>{{firstResult.temperature}}&deg;C {{firstResult.summary}}</span>
-            <span class="summaryWeather">
-              {{firstResult.source}}
-            </span>
             <span class="summaryAddress">
+              {{firstResult.source}}
             </span>
           </span>
           {{else}}
@@ -57,11 +56,10 @@
               <img src={{secondResult.icon}} alt="weather icon">
             </span>
             <span class="description swap">
+              <span class="summaryWeather">Second Result</span>
               <span>{{secondResult.temperature}}&deg;C {{secondResult.summary}}</span>
-              <span class="summaryWeather">
-                {{secondResult.source}}
-              </span>
               <span class="summaryAddress">
+                {{secondResult.source}}
               </span>
             </span>
             {{else}}

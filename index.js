@@ -54,15 +54,16 @@ app.post('/', function(req, res) {
     var darkSkyIconId = response.data.currently.icon;
     var openWeatherIconId = openWeather.data.weather[0].icon;
 
+    console.log(response.data.currently.temperature);
+
     //Take response from DarkSky and extract key info
     var darkSkyBlob = {
       source: "DarkSky",
       icon_id: darkSkyIconId,
       icon: icons.darkSky[darkSkyIconId],
       address: weather_data.formatted_address,
-      temperature: Math.round(response.data.currently.temperature),
+      temperature: Math.round(response.data.currently.temperature * 10)/10,
       summary: response.data.currently.summary,
-      apparentTemperature: `Feels like ${(Math.round(response.data.currently.apparentTemperature * 10)/10)}`,
     };
 
     //Take response from OpenWeather and extract key info
@@ -84,10 +85,22 @@ app.post('/', function(req, res) {
     if(darkSkyBlob.icon_id === "rain"){
       siteRank.firstResult = openWeatherBlob;
       siteRank.secondResult = darkSkyBlob;
+    } else if(openWeatherBlob.icon_id === "09d"){
+      siteRank.firstResult = darkSkyBlob;
+      siteRank.secondResult = openWeatherBlob;
+    } else if(openWeatherBlob.icon_id === "09n"){
+      siteRank.firstResult = darkSkyBlob;
+      siteRank.secondResult = openWeatherBlob;
     } else if(openWeatherBlob.icon_id === "10d"){
       siteRank.firstResult = darkSkyBlob;
       siteRank.secondResult = openWeatherBlob;
     } else if(openWeatherBlob.icon_id === "10n"){
+      siteRank.firstResult = darkSkyBlob;
+      siteRank.secondResult = openWeatherBlob;
+    } else if(openWeatherBlob.icon_id === "11d"){
+      siteRank.firstResult = darkSkyBlob;
+      siteRank.secondResult = openWeatherBlob;
+    } else if(openWeatherBlob.icon_id === "11n"){
       siteRank.firstResult = darkSkyBlob;
       siteRank.secondResult = openWeatherBlob;
     } else if(darkSkyBlob.temperature >= openWeatherBlob.temperature){
