@@ -49,6 +49,9 @@ app.post('/', function(req, res) {
     return axios.all([axios.get(darkSkyUrl), axios.get(openWeatherUrl)])
   }).then(axios.spread((response, openWeather) => {
 
+
+    var address = weather_data.formatted_address;
+
     //Take response from DarkSky and extract key info
     var darkSkyBlob = {
       source: "DarkSky",
@@ -57,23 +60,39 @@ app.post('/', function(req, res) {
       address: weather_data.formatted_address,
       temperature: Math.round(response.data.currently.temperature),
       summary: response.data.currently.summary,
-      apparentTemperature: `Feels like ${Math.round(response.data.currently.apparentTemperature * 10)/10}`,
+      apparentTemperature: `Feels like ${(Math.round(response.data.currently.apparentTemperature * 10)/10)}`,
     };
 
     //Take response from OpenWeather and extract key info
     var openWeatherBlob = {
       source: "OpenWeather",
-      icon_id: openWeather.data.weather.icon,
+      icon_id: openWeather.data.weather[0].icon,
       icon: "/images/shades.svg",
       address: weather_data.formatted_address,
       temperature: Math.round(openWeather.data.main.temp * 10)/10,
-      summary: openWeather.data.weather.main,
+      summary: openWeather.data.weather[0].main,
+    };
+
+    console.log(openWeather);
+    console.log(openWeatherBlob.temperature);
+    console.log(openWeatherBlob.icon_id);
+    console.log(openWeatherBlob.summary);
+
+    //Formula to decide rank of sites
+    var siteRank = {};
+    if (darkSkyBlob.temperature >= openWeatherBlob.temperature){
+      siteRank.firstResult = darkSkyBlob;
+      siteRank.secondResult = openWeatherBlob;
+    } else {
+      siteRank.firstResult = openWeatherBlob;
+      siteRank.secondResult = darkSkyBlob;
     };
 
     //Push the key information through to the templating engine / browser
     res.render('index', {
-      success: darkSkyBlob,
-      openWeather: openWeatherBlob,
+      address: address,
+      firstResult: siteRank.firstResult,
+      secondResult: siteRank.secondResult,
       error: null,
     });
 
@@ -95,8 +114,9 @@ app.listen(port, function () {
   console.log('Our app is running on http://localhost:' + port)
 });
 
+//Setting up icons
 /*
-var icons {
+var icons = {
   'darkSky': {
     'clear-day':
     'clear-night':
@@ -110,7 +130,7 @@ var icons {
     'partly-cloudy-night':
   },
   'openWeather': {
-
+    //tbc
   },
-}
+};
 */

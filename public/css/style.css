@@ -113,6 +113,25 @@ fieldset {
   border:2px solid #515151;
 }
 
+#currentDetailsWrapper {
+    width: 100%;
+    line-height: 40px;
+    padding: 0 20px;
+    background-color: rgba(238,238,238,.35);
+    overflow: hidden;
+}
+
+#currentDetails {
+    position: relative;
+    text-align: center;
+    left: -10px;
+    white-space: nowrap;
+    font-size: 14px;
+    margin: 0 auto;
+    width: 45%;
+    max-width: 600px;
+}
+
 .container {
   width: 46%;
   max-width: 600px;
@@ -131,7 +150,7 @@ fieldset {
 .currently {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: left;
 }
 
 .weatherIcon {

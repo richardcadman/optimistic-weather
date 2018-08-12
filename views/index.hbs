@@ -16,30 +16,60 @@
         </fieldset>
     </div>
 
+    <div id="currentDetailsWrapper">
+      <div id="currentDetails">
+        {{#if address}}
+        {{address}}
+        {{else}}
+          {{error}}
+        {{/if}}
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="forecast">
+        {{#if firstResult}}
+        <span class="currently">
+          <span class="weatherIcon">
+            <img src={{firstResult.icon}} alt="weather icon">
+          </span>
+          <span class="description swap">
+            <span>{{firstResult.temperature}}&deg;C {{firstResult.summary}}</span>
+            <span class="summaryWeather">
+              {{firstResult.source}}
+            </span>
+            <span class="summaryAddress">
+            </span>
+          </span>
+          {{else}}
+            {{error}}
+          </span>
+        {{/if}}
+        </div>
+      </div>
 
       <div class="container">
         <div class="forecast">
+          {{#if secondResult}}
           <span class="currently">
-          {{#if success}}
             <span class="weatherIcon">
-              <img src={{success.icon}} alt="weather icon">
+              <img src={{secondResult.icon}} alt="weather icon">
             </span>
             <span class="description swap">
-              <span>{{success.temperature}}&deg;C {{success.summary}}</span>
+              <span>{{secondResult.temperature}}&deg;C {{secondResult.summary}}</span>
               <span class="summaryWeather">
-                {{success.source}}
+                {{secondResult.source}}
               </span>
               <span class="summaryAddress">
-                {{success.address}}
               </span>
             </span>
             {{else}}
               {{error}}
-            {{/if}}
-          </span>
-
+            </span>
+          {{/if}}
+          </div>
         </div>
-      </div>
+
 
   </body>
 </html>
