@@ -7,18 +7,39 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
   </head>
   <body>
-    <div class="container">
-      <fieldset>
-        <form action="/" method="post">
-          <input name="address" type="text" class="ghost-input" placeholder="Enter an Address" required>
-          <input type="submit" class="ghost-button" value="Get Weather">
-        </form>
-        {{#if temperature}}
-        <p>{{temperature}}<p>
-        {{else}}
-        <p>{{error}}</p>  
-        {{/if}}
-      </fieldset>
+    <div id="header">
+        <fieldset>
+          <form id="searchForm" action="/" method="post">
+            <input name="address" type="text" placeholder="Enter an Address" required>
+            <input type="image" class="submitButton" src="/images/Tilda_Icons_2web_magnifier.svg" alt="Submit Form">
+          </form>
+        </fieldset>
     </div>
+
+
+      <div class="container">
+        <div class="forecast">
+          <span class="currently">
+          {{#if success}}
+            <span class="weatherIcon">
+              <img src={{success.icon}} alt="weather icon">
+            </span>
+            <span class="description swap">
+              <span>{{success.temperature}}&deg;C {{success.summary}}</span>
+              <span class="summaryWeather">
+                {{success.source}}
+              </span>
+              <span class="summaryAddress">
+                {{success.address}}
+              </span>
+            </span>
+            {{else}}
+              {{error}}
+            {{/if}}
+          </span>
+
+        </div>
+      </div>
+
   </body>
 </html>

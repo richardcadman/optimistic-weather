@@ -15,6 +15,7 @@
     "express": "^4.16.3",
     "hbs": "^4.0.1",
     "nodemon": "^1.18.3",
-    "request": "^2.87.0"
+    "request": "^2.87.0",
+    "serve-static": "^1.13.2"
   }
 }

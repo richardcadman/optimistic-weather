@@ -45,6 +45,8 @@ app.listen(port, function() {
 });
 ```
 
+[More info here.](https://scotch.io/tutorials/how-to-deploy-a-node-js-app-to-heroku)
+
 #### How to run the app
 
 Either:
@@ -92,6 +94,11 @@ app.post('/', function (req, res) {
   console.log(req.body.city);
 })
 ```
+#### Using static assets
+
+To get css and images into your project, Express has something built in to help. Otherwise calls like `http://localhost:3000/images/kitten.jpg` just wouldn't work. To get it up and running:
+
+`app.use(express.static('public'))``
 
 #### git
 
