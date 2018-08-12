@@ -37,36 +37,48 @@ app.post('/', function(req, res) {
     //Extract lat lng results from the Google API call
     var lat = response.data.results[0].geometry.location.lat;
     var lng = response.data.results[0].geometry.location.lng;
+
+    //Set address data
     weather_data.formatted_address = response.data.results[0].formatted_address;
 
     //Prepare URL to DarkSky to get weather, then call the API using Axios
-    var weatherUrl = `https://api.darksky.net/forecast/bf0082ec3476ce838caddf0d89587967/${lat},${lng}?units=si`;
+    var darkSkyUrl = `https://api.darksky.net/forecast/bf0082ec3476ce838caddf0d89587967/${lat},${lng}?units=si`;
+    var openWeatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=metric&APPID=b6be8e9fc8e14d5e8d29e69749cfe204`;
+
     console.log(response.data.results[0].formatted_address);
-    return axios.get(weatherUrl);
-  }).then((response) => {
+    return axios.all([axios.get(darkSkyUrl), axios.get(openWeatherUrl)])
+  }).then(axios.spread((response, openWeather) => {
 
     //Take response from DarkSky and extract key info
-    var icon = response.data.currently.icon;
-    var temperature = Math.round(response.data.currently.temperature);
-    var summary = response.data.currently.summary;
-    var apparentTemperature = `Feels like ${Math.round(response.data.currently.apparentTemperature)}`;
-    console.log(apparentTemperature);
+    var darkSkyBlob = {
+      source: "DarkSky",
+      icon_id: response.data.currently.icon,
+      icon: "/images/sun.svg",
+      address: weather_data.formatted_address,
+      temperature: Math.round(response.data.currently.temperature),
+      summary: response.data.currently.summary,
+      apparentTemperature: `Feels like ${Math.round(response.data.currently.apparentTemperature * 10)/10}`,
+    };
+
+    //Take response from OpenWeather and extract key info
+    var openWeatherBlob = {
+      source: "OpenWeather",
+      icon_id: openWeather.data.weather.icon,
+      icon: "/images/shades.svg",
+      address: weather_data.formatted_address,
+      temperature: Math.round(openWeather.data.main.temp * 10)/10,
+      summary: openWeather.data.weather.main,
+    };
 
     //Push the key information through to the templating engine / browser
     res.render('index', {
-      success: {
-        source: "DarkSky",
-        icon: "/images/sun.svg",
-        address: weather_data.formatted_address,
-        temperature: temperature,
-        summary: summary,
-        apparentTemperature: apparentTemperature,
-      },
+      success: darkSkyBlob,
+      openWeather: openWeatherBlob,
       error: null,
     });
 
     //Any errors should be caught here
-  }).catch((e) => {
+  })).catch((e) => {
 
     if (e.code === 'ENOTFOUND') {
       console.log('Unable to connect to API servers.');
