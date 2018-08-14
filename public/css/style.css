@@ -10,6 +10,27 @@ body {
   background-color: #eaeee8;
 }
 
+nav {
+    display: table;
+    width: 100%;
+    background-color: #333;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 300;
+}
+
+nav>.inner {
+    margin: 6px auto;
+    width: 85%;
+    white-space: nowrap;
+}
+
+nav a {
+    position: relative;
+    color: #fff;
+    text-decoration: none;
+}
+
 #header {
     position: relative;
     width: 100%;
@@ -128,7 +149,7 @@ fieldset {
     white-space: nowrap;
     font-size: 14px;
     margin: 0 auto;
-    width: 45%;
+    width: 46%;
     max-width: 600px;
 }
 
@@ -164,6 +185,12 @@ fieldset {
   height: 60px;
 }
 
+.glassesIcon img {
+  width: 100px;
+  height: 100px;
+}
+
+
 .description {
     font-weight: 600;
     text-align: left;
@@ -176,8 +203,12 @@ fieldset {
     margin-bottom: 15px;
 }
 
+.about{
+  margin-top: 20px;
+}
+
 .summaryWeather {
-  display: flex;
+  display: block;
   font-weight: 300;
   font-size: 16px;
   line-height: 1.5;
@@ -185,6 +216,13 @@ fieldset {
 
 .summaryAddress{
   display: flex;
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.summaryCredit{
+  display: block;
   font-weight: 300;
   font-size: 12px;
   line-height: 1.5;

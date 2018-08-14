@@ -18,6 +18,13 @@ app.get('/', function (req, res) {
   res.render('index')
 });
 
+//What happens when user clicks on About
+app.get('/about', function(req,res) {
+  res.render('about', {
+    name: "Richard Cadman", site: "Optimistic Weather"
+  });
+});
+
 //What happens when user posts (i.e. submits an address)
 app.post('/', function(req, res) {
 
@@ -82,30 +89,26 @@ app.post('/', function(req, res) {
 
     //Formula to decide rank of sites (this is pretty basic for now)
     var siteRank = {};
-    if(darkSkyBlob.icon_id === "rain"){
+    if(darkSkyBlob.icon_id === "rain" && (openWeatherBlob.icon_id === "09d" || openWeatherBlob.icon_id === "09n" || openWeatherBlob.icon_id === "10d" || openWeatherBlob.icon_id === "10n" || openWeatherBlob.icon_id === "11d" || openWeatherBlob.icon_id === "11n")) {
+      if (darkSkyBlob.temperature >= openWeatherBlob.temperature) {
+        siteRank.firstResult = darkSkyBlob;
+        siteRank.secondResult = openWeatherBlob;
+      } else {
+        siteRank.firstResult = openWeatherBlob;
+        siteRank.secondResult = darkSkyBlob;
+      }
+    } else if(openWeatherBlob.icon_id === "09d" || openWeatherBlob.icon_id === "09n" || openWeatherBlob.icon_id === "10d" || openWeatherBlob.icon_id === "10n" || openWeatherBlob.icon_id === "11d" || openWeatherBlob.icon_id === "11n"){
+      siteRank.firstResult = darkSkyBlob;
+      siteRank.secondResult = openWeatherBlob;
+    } else if(darkSkyBlob.icon_id === "rain") {
       siteRank.firstResult = openWeatherBlob;
       siteRank.secondResult = darkSkyBlob;
-    } else if(openWeatherBlob.icon_id === "09d"){
-      siteRank.firstResult = darkSkyBlob;
-      siteRank.secondResult = openWeatherBlob;
-    } else if(openWeatherBlob.icon_id === "09n"){
-      siteRank.firstResult = darkSkyBlob;
-      siteRank.secondResult = openWeatherBlob;
-    } else if(openWeatherBlob.icon_id === "10d"){
-      siteRank.firstResult = darkSkyBlob;
-      siteRank.secondResult = openWeatherBlob;
-    } else if(openWeatherBlob.icon_id === "10n"){
-      siteRank.firstResult = darkSkyBlob;
-      siteRank.secondResult = openWeatherBlob;
-    } else if(openWeatherBlob.icon_id === "11d"){
-      siteRank.firstResult = darkSkyBlob;
-      siteRank.secondResult = openWeatherBlob;
-    } else if(openWeatherBlob.icon_id === "11n"){
-      siteRank.firstResult = darkSkyBlob;
-      siteRank.secondResult = openWeatherBlob;
     } else if(darkSkyBlob.temperature >= openWeatherBlob.temperature){
       siteRank.firstResult = darkSkyBlob;
       siteRank.secondResult = openWeatherBlob;
+    } else if(openWeatherBlob.temperature >= darkSkyBlob.temperature){
+      siteRank.firstResult = openWeatherBlob;
+      siteRank.secondResult = darkSkyBlob;
     } else {
       siteRank.firstResult = openWeatherBlob;
       siteRank.secondResult = darkSkyBlob;
@@ -142,7 +145,7 @@ app.listen(port, function () {
 var icons = {
   darkSky: {
     'clear-day': '/images/sun.svg',
-    'clear-night': '/images/moon.svg',
+    'clear-night': '/images/moon-full.svg',
     'rain': '/images/umbrella.svg',
     'snow': '/images/snowflake.svg',
     'sleet': '/images/cloud-hail.svg',
@@ -162,7 +165,7 @@ var icons = {
     '11d': '/images/umbrella.svg',
     '13d': '/images/snowflake.svg',
     '50d': '/images/cloud-fog.svg',
-    '01n': '/images/moon.svg',
+    '01n': '/images/moon-full.svg',
     '02n': '/images/cloud-moon.svg',
     '03n': '/images/cloud-moon.svg',
     '04n': '/images/cloud.svg',
